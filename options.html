@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>指紋護盾 · 分站代理</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <h1>分站代理</h1>
+      <p class="sub">指定的網站走指定的 proxy，其他網站照常直連。</p>
+    </header>
+
+    <p id="control" class="banner" hidden></p>
+
+    <section class="card">
+      <div class="head">
+        <h2>連線檢查</h2>
+        <button id="recheck" type="button" class="ghost">重新檢查</button>
+      </div>
+      <ul id="checks" class="checks"></ul>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <p class="label">啟用分站代理</p>
+          <p class="hint">關閉後所有網站都直連。</p>
+        </div>
+        <button id="proxyEnabled" class="switch" role="switch" aria-checked="true" aria-label="啟用分站代理"><span></span></button>
+      </div>
+      <div class="row">
+        <div>
+          <p class="label">防止 WebRTC 洩漏真實 IP</p>
+          <p class="hint">有代理規則時，WebRTC 只能走 proxy。這是全瀏覽器的設定，直連網站的視訊通話品質可能變差。</p>
+        </div>
+        <button id="webrtcGuard" class="switch" role="switch" aria-checked="true" aria-label="防止 WebRTC 洩漏真實 IP"><span></span></button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="head">
+        <h2>Proxy 清單</h2>
+        <button id="addProxy" type="button" class="ghost">＋ 新增 proxy</button>
+      </div>
+      <div id="proxies" class="list"></div>
+      <p class="hint">帳號密碼只存在這台電腦（chrome.storage.local），不會同步。Chrome 不支援需要帳密的 SOCKS proxy。</p>
+    </section>
+
+    <section class="card">
+      <div class="head">
+        <h2>網站規則</h2>
+        <button id="addRule" type="button" class="ghost">＋ 新增規則</button>
+      </div>
+      <div id="rules" class="list"></div>
+      <p class="hint">
+        <code>example.com</code> 包含所有子網域；<code>*.example.com</code> 只比對子網域；也可以用 <code>*</code>、<code>?</code> 萬用字元。
+        由上往下比對，第一條符合的生效。只看「請求的主機名稱」：網頁載入的其他網域（例如 CDN）要另外加規則。
+        proxy 連不上時該網站會直接連線失敗，不會偷偷改用你的真實 IP。
+      </p>
+    </section>
+
+    <div class="actions">
+      <button id="save" type="button" class="primary">儲存</button>
+      <span id="status" role="status"></span>
+    </div>
+  </main>
+
+  <template id="proxyTpl">
+    <div class="item proxy">
+      <input class="name" placeholder="名稱（例如 日本）" aria-label="名稱" />
+      <select class="type" aria-label="類型">
+        <option value="http">HTTP</option>
+        <option value="https">HTTPS</option>
+        <option value="socks5">SOCKS5</option>
+        <option value="socks4">SOCKS4</option>
+      </select>
+      <input class="host" placeholder="主機" spellcheck="false" aria-label="主機" />
+      <input class="port" placeholder="連接埠" inputmode="numeric" aria-label="連接埠" />
+      <input class="user" placeholder="帳號（選填）" spellcheck="false" autocomplete="off" aria-label="帳號" />
+      <input class="pass" type="password" placeholder="密碼（選填）" autocomplete="new-password" aria-label="密碼" />
+      <button type="button" class="test ghost">測試</button>
+      <button type="button" class="del" aria-label="刪除">✕</button>
+      <p class="result" hidden></p>
+    </div>
+  </template>
+
+  <template id="ruleTpl">
+    <div class="item rule">
+      <input class="pattern" placeholder="網域，例如 netflix.com" spellcheck="false" aria-label="網域" />
+      <select class="proxyId" aria-label="使用的 proxy"></select>
+      <button type="button" class="up" aria-label="上移">↑</button>
+      <button type="button" class="del" aria-label="刪除">✕</button>
+    </div>
+  </template>
+
+  <script src="proxy.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

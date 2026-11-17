@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header>
+    <h1>指紋護盾</h1>
+    <p class="sub">每次載入頁面換一組指紋，網站認不出同一個你。</p>
+  </header>
+
+  <section class="row">
+    <div>
+      <p class="label">全域保護</p>
+      <p class="hint" id="globalHint"></p>
+    </div>
+    <button id="enabled" class="switch" role="switch" aria-checked="true" aria-label="全域保護"><span></span></button>
+  </section>
+
+  <section class="row">
+    <div>
+      <p class="label">在此網站停用</p>
+      <p class="hint" id="host">—</p>
+    </div>
+    <button id="siteOff" class="switch" role="switch" aria-checked="false" aria-label="在此網站停用"><span></span></button>
+  </section>
+
+  <section class="proxy">
+    <label class="label" for="siteProxy">此網站的代理</label>
+    <div class="proxy-row">
+      <select id="siteProxy"></select>
+      <button type="button" id="manageProxy" class="link">管理…</button>
+    </div>
+    <p class="hint" id="proxyHint"></p>
+  </section>
+
+  <section class="mode">
+    <label class="label" for="mode">模式</label>
+    <select id="mode">
+      <option value="stealth">隱匿模式（推薦）</option>
+      <option value="shuffle">打亂模式</option>
+    </select>
+    <p class="hint" id="modeHint"></p>
+  </section>
+
+  <section class="presets">
+    <p class="label">一鍵設定</p>
+    <div class="btns">
+      <button type="button" data-preset="shuffle">全部打亂</button>
+      <button type="button" data-preset="blend">混入人群</button>
+    </div>
+    <p class="hint">全部打亂：每次載入都不同，檢測站會顯示「獨一份」但追蹤不到。混入人群：不加雜訊，只偽裝少見的硬體，數值跟很多人一樣，但同一台電腦每次都相同。</p>
+  </section>
+
+  <section class="list">
+    <p class="label">保護項目</p>
+    <div class="item"><div><p class="name">Canvas</p><p class="hint">繪圖結果加雜訊（含 Worker）</p></div>
+      <button class="switch opt" data-key="canvas" role="switch" aria-label="Canvas"><span></span></button></div>
+    <div class="item"><div><p class="name">WebGL</p><p class="hint">讀回像素加雜訊、擴充清單打亂順序</p></div>
+      <button class="switch opt" data-key="webgl" role="switch" aria-label="WebGL"><span></span></button></div>
+    <div class="item"><div><p class="name">音訊</p><p class="hint">關閉則維持原值（Chrome 的音訊指紋多半本來就是常見值）</p></div>
+      <button class="switch opt" data-key="audio" role="switch" aria-label="音訊"><span></span></button></div>
+    <div class="item"><div><p class="name">文字量測</p><p class="hint">measureText 寬度微調</p></div>
+      <button class="switch opt" data-key="text" role="switch" aria-label="文字量測"><span></span></button></div>
+    <div class="item"><div><p class="name">顯示卡型號</p><p class="hint">換成同代最常見型號（例如 RTX 4090 → RTX 4060）</p></div>
+      <button class="switch opt" data-key="gpu" role="switch" aria-label="顯示卡型號"><span></span></button></div>
+    <div class="item"><div><p class="name">CPU／記憶體</p><p class="hint">超過 8 執行緒、8 GB 時回報 8</p></div>
+      <button class="switch opt" data-key="cpu" role="switch" aria-label="CPU／記憶體"><span></span></button></div>
+    <div class="item"><div><p class="name">螢幕偽裝</p><p class="hint">回報裝得下視窗的常見解析度（1920×1080、2560×1440、3840×2160）</p></div>
+      <button class="switch opt" data-key="screen" role="switch" aria-label="螢幕偽裝"><span></span></button></div>
+    <div class="item"><div><p class="name">Service Worker</p><p class="hint">開啟後 Chrome 頂端會一直顯示偵錯提示列</p></div>
+      <button class="switch" id="sw" role="switch" aria-label="Service Worker"><span></span></button></div>
+  </section>
+
+  <p id="status" class="status" role="status"></p>
+
+  <footer>
+    <a id="test" href="#">到 who.1ms.dog 檢測 →</a>
+  </footer>
+  <script src="proxy.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

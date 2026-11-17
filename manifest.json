@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "指紋護盾",
+  "version": "1.4.1",
+  "description": "替 Canvas、WebGL、音訊等指紋加入雜訊並偽裝少見硬體，每次載入都換一組；也能指定特定網站走指定的 proxy。",
+  "permissions": [
+    "scripting",
+    "storage",
+    "activeTab",
+    "webRequest",
+    "debugger",
+    "proxy",
+    "privacy",
+    "webRequestAuthProvider"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "指紋護盾"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}
